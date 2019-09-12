@@ -19,7 +19,7 @@ public class initialize
 
 class playGame extends JFrame implements ActionListener 
 {
-    int size; // int size = 0;
+    int size;
     JPanel panel1 = new JPanel();
     JPanel panel2 = new JPanel();
     JButton btnSmall, btnMedium, btnLarge,btn[][];
