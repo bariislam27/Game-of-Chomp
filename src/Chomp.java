@@ -19,7 +19,7 @@ public class Chomp
 class playGame extends JFrame implements ActionListener 
 {
     int size, player, choice, compRow, compCol; 
-    int clickedRowCol1[] = {0, 0};
+    int clickedRowCol1[] = {0, 0}; // Help to decide the computer which button not to select
     JPanel panel1 = new JPanel();
     JPanel panel2 = new JPanel();
     JButton btnSmall, btnMedium, btnLarge, btn[][];
@@ -77,7 +77,8 @@ class playGame extends JFrame implements ActionListener
         lblComp.setFont(new Font("Dialog", Font.ITALIC, 14));
         lblComp.setBounds(12, 72, 270, 35);
         panel1.add(lblComp);
-
+        
+        // Making of JButtons in a grid
         btn = new JButton[size][size];
         
         for (int r = 0; r < size; r++)
@@ -113,6 +114,24 @@ class playGame extends JFrame implements ActionListener
     {
     	compRow = rand.nextInt(clickedRowCol1[0] + 1);
 		compCol = rand.nextInt(clickedRowCol1[1] + 1);
+		
+		// Additional condition for first row and column
+		// Else, the computer might choose an illegal move
+		if (compRow == 0 && compCol != 0)
+		{
+			int temp = compRow;
+			compRow = compCol;
+			compCol = temp;
+		}
+		else if (compRow != 0 && compCol == 0)
+		{
+			{
+				int temp = compRow;
+				compRow = compCol;
+				compCol = temp;
+			}
+		}
+		
     	if (compRow == 0 && compCol == 0)
 		{
 			if (btn[0][1].isEnabled())
@@ -126,17 +145,16 @@ class playGame extends JFrame implements ActionListener
 				compCol = 0;
 			}
 		}
+    	
     	lblComp.setText("Computer's selection: " + compRow + ", " + compCol);
-    	//System.out.println(compRow + ", " + compCol);
     }
     
     public void gameStatus()
-    {
-    	// User's turn
+    {   	
+    	// Computers's turn
     	if (player % 2 == 0)
     	{
     		lblStatus.setText("Computer's turn");
-    		
     		
     		if (!(btn[0][1].isEnabled()) && !(btn[1][0].isEnabled()))
     		{
@@ -145,6 +163,8 @@ class playGame extends JFrame implements ActionListener
     					+ "you want to play again?", "Result", JOptionPane.YES_NO_OPTION);
     			if (choice == JOptionPane.YES_OPTION)
     			{
+    				player = 1;
+    				setVisible(false);
     				new playGame(8);
     			}
     			else 
@@ -152,14 +172,12 @@ class playGame extends JFrame implements ActionListener
     				System.exit(0);
     			}
     		}
-    		
     		player++;
     	}
     	
-    	// Computer's turn
+    	// User's turn
     	if (player % 2 == 1)
     	{
-    		
     		lblStatus.setText("Your turn");
 
     		computerAI();
@@ -178,6 +196,7 @@ class playGame extends JFrame implements ActionListener
     					+ "you want to play again?", "Result", JOptionPane.YES_NO_OPTION);
     			if (choice == JOptionPane.YES_OPTION)
     			{
+    				setVisible(false);
     				new playGame(8);
     			}
     			else 
@@ -194,7 +213,7 @@ class playGame extends JFrame implements ActionListener
     {
         if (e.getSource().equals(btnSmall)) 
         {
-            //setVisible(false);
+            setVisible(false);
             new playGame(5);
         } 
         else if (e.getSource().equals(btnMedium)) 
@@ -231,7 +250,6 @@ class playGame extends JFrame implements ActionListener
                         	btn[i][j].setBackground(Color.lightGray);
                             btn[i][j].setEnabled(false);
                         }
-                	//gameStatus();
                 }
                 
             }
