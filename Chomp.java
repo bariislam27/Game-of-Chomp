@@ -34,7 +34,9 @@ class playGame extends JFrame implements ActionListener
         this.size = size;
         
         setTitle("Game of Chomp");
-        setBounds(100, 90, 750, 550);
+        //setBounds(100, 90, 750, 550);
+	setSize(750, 550);
+	setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
